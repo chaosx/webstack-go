@@ -43,12 +43,14 @@ services:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: 123456
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       - webstack-go
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      test: [ "CMD", "mysqladmin", "-u", "root", "-p123456", "ping", "-h", "localhost" ]
       <<: *healthcheck_defaults
+    volumes:
+      - /data/mysql/webstack:/var/lib/mysql  # 挂载数据目录
 
 
   webstack-go-redis:
